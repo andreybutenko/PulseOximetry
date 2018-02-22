@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.washington.cs.sensor.pulseoximetry.MeasureFragment">
+
+    <TextView
+        android:id="@+id/status_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:text="Measure Fragment"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/save_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+    <Button
+        android:id="@+id/compute_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calculate"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/ir_chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/status_text" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/red_chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/save_button"
+        android:layout_below="@+id/status_text" />
+
+    <Button
+        android:id="@+id/clear_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/compute_button"
+        android:layout_centerHorizontal="true"
+        android:text="Clear" />
+
+</RelativeLayout>

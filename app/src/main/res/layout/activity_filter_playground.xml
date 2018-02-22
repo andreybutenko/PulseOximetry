@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.washington.cs.sensor.pulseoximetry.MeasurementDetailActivity">
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/playground_ir_chart"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_alignParentTop="true" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/playground_rd_chart"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_above="@+id/apply_button"
+        android:layout_below="@+id/playground_ir_chart" />
+
+    <Button
+        android:id="@+id/apply_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="Apply" />
+
+    <Button
+        android:id="@+id/toggle_low"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/frequency_text"
+        android:layout_toStartOf="@+id/apply_button"
+        android:text="Toggle" />
+
+    <TextView
+        android:id="@+id/frequency_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Frequency: 101.0"
+        android:layout_below="@+id/apply_button"
+        android:layout_alignParentStart="true" />
+
+    <SeekBar
+        android:id="@+id/frequency_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/frequency_text"
+        android:max="200"
+        android:progress="101" />
+
+    <TextView
+        android:id="@+id/sample_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/frequency_bar"
+        android:text="Sample Rate: 100.0" />
+
+    <SeekBar
+        android:id="@+id/sample_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/sample_text"
+        android:min="50"
+        android:max="100"
+        android:progress="100" />
+
+    <TextView
+        android:id="@+id/resonance_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/sample_bar"
+        android:text="Resonance: 1.0"
+        android:visibility="invisible" />
+
+    <SeekBar
+        android:id="@+id/resonance_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/resonance_text"
+        android:max="140"
+        android:progress="100"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/boost_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/sample_bar"
+        android:text="Low pass freq boost: 2.0" />
+
+    <SeekBar
+        android:id="@+id/boost_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/resonance_text"
+        android:max="20"
+        android:progress="2" />
+
+    <TextView
+        android:id="@+id/threshold_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/resonance_bar"
+        android:text="Threshold: 0" />
+
+    <SeekBar
+        android:id="@+id/threshold_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/threshold_text"
+        android:max="2000"
+        android:progress="0" />
+
+    <TextView
+        android:id="@+id/entries_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/apply_button"
+        android:text="Entry count" />
+
+    <TextView
+        android:id="@+id/estimate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="estimate???"
+        android:layout_below="@+id/resonance_bar"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>
