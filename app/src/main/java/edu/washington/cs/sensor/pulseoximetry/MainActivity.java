@@ -69,8 +69,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d("MAIN", "action check? " + (NfcAdapter.ACTION_TAG_DISCOVERED.equals(getIntent().getAction())));
 
         if(fragment instanceof MeasureFragment && NfcAdapter.ACTION_TAG_DISCOVERED.equals(getIntent().getAction())) {
-            ((MeasureFragment) fragment).setStatus("Tag detected");
-
             Tag tag = (Tag) intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
 
             MeasurementAsyncTask measurementAsyncTask = new MeasurementAsyncTask((MeasureFragment) fragment, tag);

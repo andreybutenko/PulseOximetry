@@ -28,6 +28,14 @@ public class Measurement extends SugarRecord {
         // Required empty public constructor
     }
 
+    public Measurement(List<Entry> irValues, List<Entry> rdValues) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        time = sdf.format(Calendar.getInstance().getTime());
+
+        this.irValues = EntryHelper.deflateEntries(irValues);
+        this.rdValues = EntryHelper.deflateEntries(rdValues);
+    }
+
     public Measurement(byte[] irMeasure, byte[] rdMeasure, List<Entry> irValues, List<Entry> rdValues) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         time = sdf.format(Calendar.getInstance().getTime());

@@ -4,50 +4,94 @@
     android:layout_height="match_parent"
     tools:context="edu.washington.cs.sensor.pulseoximetry.MeasureFragment">
 
-    <TextView
-        android:id="@+id/status_text"
+    <RelativeLayout
+        android:id="@+id/active_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:id="@+id/button_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="8dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="8dp">
+
+            <Button
+                android:id="@+id/save_button"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:text="Save" />
+
+            <Button
+                android:id="@+id/compute_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="@color/colorPrimary"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:text="See results"
+                android:textColor="?android:attr/textColorPrimaryInverse" />
+
+            <Button
+                android:id="@+id/clear_button"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:text="Clear" />
+
+        </RelativeLayout>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/ir_chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/button_container"
+            android:layout_alignParentTop="true" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/red_chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/button_container" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/empty_screen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
+        android:orientation="vertical"
+        android:padding="16dp"
         android:layout_centerVertical="true"
-        android:text="Measure Fragment"
-        android:textAlignment="center" />
+        android:layout_alignParentStart="true"
+        android:visibility="visible">
 
-    <Button
-        android:id="@+id/save_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
-    <Button
-        android:id="@+id/compute_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Calculate"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pulse Oximetry"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/ir_chart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_above="@+id/status_text" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tap and hold your phone to the WISP to start a new capture. Try to have as stable a contact as possible."
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/red_chart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/save_button"
-        android:layout_below="@+id/status_text" />
-
-    <Button
-        android:id="@+id/clear_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/compute_button"
-        android:layout_centerHorizontal="true"
-        android:text="Clear" />
+    </LinearLayout>
 
 </RelativeLayout>

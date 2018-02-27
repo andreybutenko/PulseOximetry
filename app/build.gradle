@@ -32,5 +32,6 @@ dependencies {
     compile 'com.android.support:support-v4:26.0.1'
     compile 'com.github.satyan:sugar:1.5'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.afollestad.material-dialogs:core:0.9.6.0'
     testCompile 'junit:junit:4.12'
 }
