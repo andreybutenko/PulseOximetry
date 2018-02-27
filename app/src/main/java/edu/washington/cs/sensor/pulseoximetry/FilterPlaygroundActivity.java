@@ -32,17 +32,17 @@ public class FilterPlaygroundActivity extends AppCompatActivity {
 
     TextView estimateText;
 
-    TextView frequencyText;
-    SeekBar frequencyBar;
+    TextView frequencyHighText;
+    SeekBar frequencyHighBar;
+
+    TextView frequencyLowText;
+    SeekBar frequencyLowBar;
 
     TextView sampleText;
     SeekBar sampleBar;
 
     TextView resonanceText;
     SeekBar resonanceBar;
-
-    TextView boostText;
-    SeekBar boostBar;
 
     TextView thresholdText;
     SeekBar thresholdBar;
@@ -101,9 +101,13 @@ public class FilterPlaygroundActivity extends AppCompatActivity {
         TextView entriesCount = (TextView) findViewById(R.id.entries_count);
         entriesCount.setText("n = " + irValues.length);
 
-        frequencyText = (TextView) findViewById(R.id.frequency_text);
-        frequencyBar = (SeekBar) findViewById(R.id.frequency_bar);
-        setupListener("Frequency", frequencyText, frequencyBar);
+        frequencyHighText = (TextView) findViewById(R.id.freq_high_text);
+        frequencyHighBar = (SeekBar) findViewById(R.id.freq_high_bar);
+        setupListener("High frequency", frequencyHighText, frequencyHighBar);
+
+        frequencyLowText = (TextView) findViewById(R.id.freq_low_text);
+        frequencyLowBar = (SeekBar) findViewById(R.id.freq_low_bar);
+        setupListener("Low frequency", frequencyLowText, frequencyLowBar);
 
         sampleText = (TextView) findViewById(R.id.sample_text);
         sampleBar = (SeekBar) findViewById(R.id.sample_bar);
@@ -112,10 +116,6 @@ public class FilterPlaygroundActivity extends AppCompatActivity {
         resonanceText = (TextView) findViewById(R.id.resonance_text);
         resonanceBar = (SeekBar) findViewById(R.id.resonance_bar);
         setupListener("Resonance", resonanceText, resonanceBar, 1f / 100f);
-
-        boostText = (TextView) findViewById(R.id.boost_text);
-        boostBar = (SeekBar) findViewById(R.id.boost_bar);
-        setupListener("Low pass freq boost", boostText, boostBar);
 
         thresholdText = (TextView) findViewById(R.id.threshold_text);
         thresholdBar = (SeekBar) findViewById(R.id.threshold_bar);
@@ -149,9 +149,6 @@ public class FilterPlaygroundActivity extends AppCompatActivity {
         });
     }
 
-    //        entries = EntryHelper.applyFilter(entries, frequencyBar.getProgress(), sampleBar.getProgress(), Filter.PassType.Lowpass, resonanceBar.getProgress() / 100);
-//        entries = EntryHelper.applyFilter(entries, 100, 100, Filter.PassType.Highpass, 1f);
-
     private void displayResults() {
         int threshold = thresholdBar.getProgress();
 
@@ -159,11 +156,11 @@ public class FilterPlaygroundActivity extends AppCompatActivity {
         List<Entry> rdEntries = EntryHelper.inflateEntries(rdValues);
 
         if(enable) {
-            irEntries = EntryHelper.applyFilter(irEntries, frequencyBar.getProgress() + boostBar.getProgress(), sampleBar.getProgress(), Filter.PassType.Lowpass, resonanceBar.getProgress() / 100f);
-            rdEntries = EntryHelper.applyFilter(rdEntries, frequencyBar.getProgress() + boostBar.getProgress(), sampleBar.getProgress(), Filter.PassType.Lowpass, resonanceBar.getProgress() / 100f);
+            irEntries = EntryHelper.applyFilter(irEntries, frequencyLowBar.getProgress(), sampleBar.getProgress(), Filter.PassType.Lowpass, resonanceBar.getProgress() / 100f);
+            rdEntries = EntryHelper.applyFilter(rdEntries, frequencyLowBar.getProgress(), sampleBar.getProgress(), Filter.PassType.Lowpass, resonanceBar.getProgress() / 100f);
 
-            irEntries = EntryHelper.applyFilter(irEntries, frequencyBar.getProgress(), sampleBar.getProgress(), Filter.PassType.Highpass, resonanceBar.getProgress() / 100f);
-            rdEntries = EntryHelper.applyFilter(rdEntries, frequencyBar.getProgress(), sampleBar.getProgress(), Filter.PassType.Highpass, resonanceBar.getProgress() / 100f);
+            irEntries = EntryHelper.applyFilter(irEntries, frequencyHighBar.getProgress(), sampleBar.getProgress(), Filter.PassType.Highpass, resonanceBar.getProgress() / 100f);
+            rdEntries = EntryHelper.applyFilter(rdEntries, frequencyHighBar.getProgress(), sampleBar.getProgress(), Filter.PassType.Highpass, resonanceBar.getProgress() / 100f);
         }
 
         String result4 = String.valueOf(DataAnalyzer.getBpm(irEntries, threshold)) + " bpm // "
