@@ -35,21 +35,31 @@ public class HistoryFragment extends Fragment {
         final List<Measurement> measurementList = Measurement.find(Measurement.class, "");
         Collections.reverse(measurementList);
 
-        TextView fakeCounter = (TextView) getActivity().findViewById(R.id.fake_counter);
-        String counterText = "Counter @ " + measurementList.size();
-        fakeCounter.setText(counterText);
-
         historyListView = (ListView) getActivity().findViewById(R.id.history_list);
         measurementArrayAdapter = new MeasurementArrayAdapter(getContext(), measurementList);
         historyListView.setAdapter(measurementArrayAdapter);
+
         historyListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String dateTime = measurementList.get(i).getRawTime();
 
+                Intent intent = new Intent(getContext(), MeasurementDetailActivity.class);
+                intent.putExtra(MeasurementDetailActivity.DATE_TIME_EXTRA, dateTime);
+                startActivity(intent);
+            }
+        });
+
+        historyListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String dateTime = measurementList.get(i).getRawTime();
+
                 Intent intent = new Intent(getContext(), FilterPlaygroundActivity.class);
                 intent.putExtra(MeasurementDetailActivity.DATE_TIME_EXTRA, dateTime);
                 startActivity(intent);
+
+                return true;
             }
         });
     }

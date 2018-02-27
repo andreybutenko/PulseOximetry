@@ -16,6 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -33,6 +34,14 @@
                 android:resource="@xml/tech_list" />
         </activity>
 
+        <activity
+            android:name=".MeasurementDetailActivity"
+            android:label="@string/title_activity_measurement_detail" />
+
+        <activity
+            android:name=".FilterPlaygroundActivity"
+            android:label="FilterPlaygroundActivity" />
+
         <!-- Config for SugarORM -->
         <meta-data
             android:name="DATABASE"
@@ -40,12 +49,5 @@
         <meta-data
             android:name="VERSION"
             android:value="1" />
-
-        <activity
-            android:name=".MeasurementDetailActivity"
-            android:label="@string/title_activity_measurement_detail"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".FilterPlaygroundActivity"></activity>
     </application>
-
 </manifest>

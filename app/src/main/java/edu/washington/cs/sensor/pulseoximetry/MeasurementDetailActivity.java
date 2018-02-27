@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -19,6 +20,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import java.util.List;
 
 import edu.washington.cs.sensor.pulseoximetry.models.Measurement;
+import edu.washington.cs.sensor.pulseoximetry.util.PreviewHelper;
 
 public class MeasurementDetailActivity extends AppCompatActivity {
     public static final String DATE_TIME_EXTRA = "DATE_TIME_EXTRA";
@@ -37,37 +39,25 @@ public class MeasurementDetailActivity extends AppCompatActivity {
         chartConfig(irChart, "IR");
         chartConfig(redChart, "Red");
 
-        refreshChart(irChart, measurement.getIrValues(), Color.BLUE);
-        refreshChart(redChart, measurement.getRdValues(), Color.RED);
+        refreshChart(irChart, PreviewHelper.getFiltered(measurement.getIrValues()), Color.BLUE);
+        refreshChart(redChart, PreviewHelper.getFiltered(measurement.getRdValues()), Color.RED);
 
-        Button computeButton = findViewById(R.id.compute_button);
-        computeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                displayResults(measurement);
-            }
-        });
+        setupBackButton(measurement.getFormattedTime());
     }
 
-    private void displayResults(Measurement measurement) {
-        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setTitle("Result");
-        alertDialog.setMessage("TODO"); // TODO
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
+    private void setupBackButton(String title) {
+        getSupportActionBar().setTitle(title);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
-    public static String getByteArrayAsString(byte[] bytes) {
-        String result = "";
-        for(byte aByte : bytes) {
-            result += String.valueOf(aByte) + ",";
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
         }
-        return result;
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void chartConfig(LineChart chart, String desc) {
@@ -88,7 +78,7 @@ public class MeasurementDetailActivity extends AppCompatActivity {
         yAxis.setTextColor(Color.BLACK);
         yAxis.setLabelCount(7, true);
         yAxis.setDrawGridLines(false);
-        yAxis.setAxisMinimum(0);
+        //yAxis.setAxisMinimum(0);
 
         XAxis xAxis = chart.getXAxis();
         xAxis.setEnabled(true);
