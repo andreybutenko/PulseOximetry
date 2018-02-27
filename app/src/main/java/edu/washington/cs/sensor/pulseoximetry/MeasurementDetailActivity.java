@@ -2,16 +2,11 @@ package edu.washington.cs.sensor.pulseoximetry;
 
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.icu.util.Measure;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
@@ -24,8 +19,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 import java.util.List;
 
 import edu.washington.cs.sensor.pulseoximetry.models.Measurement;
-import edu.washington.cs.sensor.pulseoximetry.util.DataAnalyzer;
-import edu.washington.cs.sensor.pulseoximetry.util.EntryHelper;
 
 public class MeasurementDetailActivity extends AppCompatActivity {
     public static final String DATE_TIME_EXTRA = "DATE_TIME_EXTRA";
@@ -57,11 +50,9 @@ public class MeasurementDetailActivity extends AppCompatActivity {
     }
 
     private void displayResults(Measurement measurement) {
-        DataAnalyzer dataAnalyzer = new DataAnalyzer(measurement.getIrMeasure(), measurement.getRdMeasure());
-
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle("Result");
-        alertDialog.setMessage(dataAnalyzer.getResult());
+        alertDialog.setMessage("TODO"); // TODO
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {

@@ -1,8 +1,6 @@
 package edu.washington.cs.sensor.pulseoximetry;
 
-import android.content.DialogInterface;
 import android.graphics.Color;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,9 +21,6 @@ import java.util.List;
 
 import edu.washington.cs.sensor.pulseoximetry.models.Measurement;
 import edu.washington.cs.sensor.pulseoximetry.util.DataAnalyzer;
-import edu.washington.cs.sensor.pulseoximetry.util.DataAnalyzer2;
-import edu.washington.cs.sensor.pulseoximetry.util.DataAnalyzer3;
-import edu.washington.cs.sensor.pulseoximetry.util.DataAnalyzer4;
 import edu.washington.cs.sensor.pulseoximetry.util.EntryHelper;
 import edu.washington.cs.sensor.pulseoximetry.util.Filter;
 
@@ -171,15 +166,9 @@ public class FilterPlaygroundActivity extends AppCompatActivity {
             rdEntries = EntryHelper.applyFilter(rdEntries, frequencyBar.getProgress(), sampleBar.getProgress(), Filter.PassType.Highpass, resonanceBar.getProgress() / 100f);
         }
 
-        String result4 = String.valueOf(DataAnalyzer4.getBpm(irEntries, threshold)) + " bpm // "
-                + String.valueOf(DataAnalyzer4.getSO2(irEntries, rdEntries)) + "% O2";
-        //String result3 = String.valueOf(DataAnalyzer3.getBpm(irEntries, thresholdProportion));
-        //String result2 = new DataAnalyzer2(EntryHelper.entriesToFloats(irEntries), EntryHelper.entriesToFloats(rdEntries)).getResult();
+        String result4 = String.valueOf(DataAnalyzer.getBpm(irEntries, threshold)) + " bpm // "
+                + String.valueOf(DataAnalyzer.getSO2(irEntries, rdEntries)) + "% O2";
         estimateText.setText(result4);
-
-//        if(enable) {
-//            irEntries = DataAnalyzer3.debugShowThresh(irEntries, thresholdProportion);
-//        }
 
         refreshChart(irChart, irEntries, Color.BLUE);
         refreshChart(rdChart, rdEntries, Color.RED);

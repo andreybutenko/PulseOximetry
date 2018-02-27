@@ -69,20 +69,16 @@ public class MeasurementAsyncTask extends AsyncTask<Void, Object, String> {
                     redRawData.add(receiveData[j + 2]);
                     redRawData.add(receiveData[j + 3]);
 
-
-
                     int rd_s = 0;
                     rd_s = (receiveData[j + 3] & 0xFF);
                     rd_s = (rd_s << 8) | (receiveData[j + 2] & 0xFF);
 
-
                     redData[j / 4] = (float) rd_s;
                 }
-                
-//                String dataString = MeasurementDetailActivity.getByteArrayAsString(receiveData);
+
                 String dataString = getTickDataAsString(irData, redData);
                 Log.d("MEASURE", dataString);
-                publishProgress(String.valueOf((endTime - System.currentTimeMillis()) / 1000f) + "s remaining...\n" + dataString, irData, redData, irRawData, redRawData);
+                publishProgress(String.valueOf((endTime - System.currentTimeMillis()) / 1000f) + "s remaining...\n" + dataString, irData, redData, irRawData, redRawData); // TODO cleanup
             }
 
             publishProgress("Measurement complete!");

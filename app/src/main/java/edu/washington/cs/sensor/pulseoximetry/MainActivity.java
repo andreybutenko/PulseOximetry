@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
         super.onNewIntent(intent);
         Log.d("MAIN", "Got a new intent!");
         Log.d("MAIN", String.valueOf(intent));
-        //Tag tagFromIntent = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG); // for write to NFC
         setIntent(intent);
 
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content);

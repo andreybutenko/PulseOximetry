@@ -19,15 +19,6 @@ public class EntryHelper {
         }
         return result;
     }
-//
-//    public static List<Entry> floatsToEntries(float[] entries) {
-//        List<Entry> result = new ArrayList<Entry>();
-//        for(int i = 0; i < entries.length; i++) {
-//            Entry newEntry = new Entry(i, entries[i]);
-//            result.add(newEntry);
-//        }
-//        return result;
-//    }aS
 
     public static String deflateEntries(List<Entry> entries) {
         String result = "";
@@ -65,29 +56,6 @@ public class EntryHelper {
 
         for(int i = 0; i < values.length; i++) {
             float value = values[i];
-            Entry newEntry = new Entry(i, value);
-            result.add(newEntry);
-        }
-
-        return result;
-    }
-
-    public static List<Entry> inflateEntriesFiltered(String entries) {
-        List<Entry> result = new ArrayList<Entry>();
-        String[] splitString = entries.split(",");
-
-        Filter lowPassFilter = new Filter(40, splitString.length, Filter.PassType.Highpass, 1);
-        Filter highPassFilter = new Filter(40, splitString.length, Filter.PassType.Highpass, 1);
-
-        for(int i = 0; i < splitString.length; i++) {
-            float value = Float.parseFloat(splitString[i]);
-
-            lowPassFilter.Update(value);
-            value = lowPassFilter.getValue();
-
-//            highPassFilter.Update(value);
-//            value = highPassFilter.getValue();
-
             Entry newEntry = new Entry(i, value);
             result.add(newEntry);
         }

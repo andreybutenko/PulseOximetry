@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,15 +20,11 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import edu.washington.cs.sensor.pulseoximetry.models.Measurement;
 import edu.washington.cs.sensor.pulseoximetry.util.DataAnalyzer;
-import edu.washington.cs.sensor.pulseoximetry.util.EntryHelper;
 
 
 public class MeasureFragment extends Fragment {
@@ -48,14 +43,6 @@ public class MeasureFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
-//        Button fakeButton = (Button) getActivity().findViewById(R.id.fake_button);
-//        fakeButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                addNewEntry();
-//            }
-//        });
 
         Button saveButton = (Button) getActivity().findViewById(R.id.save_button);
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -81,11 +68,9 @@ public class MeasureFragment extends Fragment {
         calculateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DataAnalyzer dataAnalyzer = new DataAnalyzer(irRawData, redRawData);
-
                 AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                 alertDialog.setTitle("Result");
-                alertDialog.setMessage(dataAnalyzer.getResult());
+                alertDialog.setMessage("TODO"); // TODO
                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
@@ -104,13 +89,6 @@ public class MeasureFragment extends Fragment {
         chartConfig(irChart, "IR");
         chartConfig(redChart, "Red");
     }
-
-//    private void addNewEntry() {
-//        byte[] randomBytes = new byte[10];
-//        new Random().nextBytes(randomBytes);
-//        Measurement randomMeasurement = new Measurement(randomBytes, randomBytes);
-//        randomMeasurement.save();
-//    }
 
     private void saveCurrentEntry() {
         Measurement newMeasurement = new Measurement(
@@ -188,11 +166,6 @@ public class MeasureFragment extends Fragment {
     public void setRawData(ArrayList<Byte> irData, ArrayList<Byte> redData) {
         irRawData = new byte[irData.size()];
         redRawData = new byte[redData.size()];
-
-//        Log.d("SRD", "irData.size() = " + irData.size());
-//        Log.d("SRD", "irRawData.length = " + irRawData.length);
-//        Log.d("SRD", "redData.size() = " + redData.size());
-//        Log.d("SRD", "redRawData.length = " + redRawData.length);
 
         try {
             for(int i = 0; i < irData.size() - 1; i++) {
