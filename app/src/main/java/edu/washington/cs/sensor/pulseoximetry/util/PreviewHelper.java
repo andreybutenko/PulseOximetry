@@ -10,11 +10,11 @@ import java.util.List;
  */
 
 public class PreviewHelper {
-    private static int BPM_THRESHOLD = 0;
-    private static float FREQUENCY_LOW = 101;
-    private static float FREQUENCY_HIGH = 103;
-    private static int SAMPLE_RATE = 100;
-    private static float RESONANCE = 1;
+    public static int BPM_THRESHOLD = 0;
+    public static float FREQUENCY_LOW = 101;
+    public static float FREQUENCY_HIGH = 103;
+    public static int SAMPLE_RATE = 100;
+    public static float RESONANCE = 1;
 
     public static String getResults(List<Entry> irEntries, List<Entry> rdEntries) {
         float bpm = DataAnalyzer.getBpm(getFiltered(irEntries), BPM_THRESHOLD);

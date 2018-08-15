@@ -4,6 +4,7 @@ package edu.washington.cs.sensor.pulseoximetry;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.res.ResourcesCompat;
@@ -68,6 +69,14 @@ public class MeasureFragment extends Fragment {
             }
         });
 
+        Button clearButton = (Button) getActivity().findViewById(R.id.clear_button);
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                resetFragment();
+            }
+        });
+
         irChart = (LineChart) getActivity().findViewById(R.id.ir_chart);
         redChart = (LineChart) getActivity().findViewById(R.id.red_chart);
 
@@ -85,13 +94,22 @@ public class MeasureFragment extends Fragment {
     private void saveCurrentEntry() {
         showSaveProgressDialog();
 
-        Measurement newMeasurement = new Measurement(
+        final Measurement newMeasurement = new Measurement(
                 irEntries,
                 redEntries
         );
-        newMeasurement.save();
 
-        showSaveSuccessDialog();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                new MeasurementSaveAsyncTask(MeasureFragment.this, newMeasurement).execute();
+            }
+        }, 100);
+
+
+//        newMeasurement.save();
+//
+//        showSaveSuccessDialog();
     }
 
     @Override

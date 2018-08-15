@@ -1,13 +1,11 @@
 package edu.washington.cs.sensor.pulseoximetry;
 
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
@@ -20,6 +18,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import java.util.List;
 
 import edu.washington.cs.sensor.pulseoximetry.models.Measurement;
+import edu.washington.cs.sensor.pulseoximetry.util.DataAnalyzer;
 import edu.washington.cs.sensor.pulseoximetry.util.PreviewHelper;
 
 public class MeasurementDetailActivity extends AppCompatActivity {
@@ -41,6 +40,17 @@ public class MeasurementDetailActivity extends AppCompatActivity {
 
         refreshChart(irChart, PreviewHelper.getFiltered(measurement.getIrValues()), Color.BLUE);
         refreshChart(redChart, PreviewHelper.getFiltered(measurement.getRdValues()), Color.RED);
+
+        int bpm = (int) DataAnalyzer.getBpm(PreviewHelper.getFiltered(measurement.getIrValues()), PreviewHelper.BPM_THRESHOLD);
+        int so2 = (int) DataAnalyzer.getSO2(PreviewHelper.getFiltered(measurement.getIrValues()), PreviewHelper.getFiltered(measurement.getRdValues()));
+
+        Log.d("MDA", bpm + ", " + so2);
+
+        TextView bpmText = (TextView) findViewById(R.id.bpm_value);
+        bpmText.setText(String.valueOf(bpm));
+
+        TextView so2Text = (TextView) findViewById(R.id.so2_value);
+        so2Text.setText(String.valueOf(so2));
 
         setupBackButton(measurement.getFormattedTime());
     }

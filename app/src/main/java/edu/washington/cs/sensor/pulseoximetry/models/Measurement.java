@@ -18,7 +18,7 @@ import edu.washington.cs.sensor.pulseoximetry.util.EntryHelper;
  */
 
 public class Measurement extends SugarRecord {
-    String time;
+    String time; // creation date
     byte[] irMeasure;
     byte[] rdMeasure;
     String irValues;
