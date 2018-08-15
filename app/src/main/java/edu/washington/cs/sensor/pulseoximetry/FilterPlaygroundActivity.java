@@ -27,6 +27,7 @@ import edu.washington.cs.sensor.pulseoximetry.util.Filter;
 
 public class FilterPlaygroundActivity extends AppCompatActivity {
     public static final String DATE_TIME_EXTRA = "DATE_TIME_EXTRA";
+    private static final int FREQ_SEEKBAR_OFFSET = 98; // min value
 
     LineChart irChart;
     LineChart rdChart;
@@ -112,15 +113,15 @@ public class FilterPlaygroundActivity extends AppCompatActivity {
 
         sampleText = (TextView) findViewById(R.id.sample_text);
         sampleBar = (SeekBar) findViewById(R.id.sample_bar);
-        setupListener("Sample Rate", sampleText, sampleBar);
+        setupListener("Sample Rate", sampleText, sampleBar, 0, 1);
 
         resonanceText = (TextView) findViewById(R.id.resonance_text);
         resonanceBar = (SeekBar) findViewById(R.id.resonance_bar);
-        setupListener("Resonance", resonanceText, resonanceBar, 1f / 100f);
+        setupListener("Resonance", resonanceText, resonanceBar, 0, 1f / 100f);
 
         thresholdText = (TextView) findViewById(R.id.threshold_text);
         thresholdBar = (SeekBar) findViewById(R.id.threshold_bar);
-        setupListener("Threshold", thresholdText, thresholdBar);
+        setupListener("Threshold", thresholdText, thresholdBar, 0, 1);
 
         displayResults();
 
@@ -143,13 +144,14 @@ public class FilterPlaygroundActivity extends AppCompatActivity {
     }
 
     private void setupListener(String label, TextView textView, SeekBar seekBar) {
-        setupListener(label, textView, seekBar, 1);
+        setupListener(label, textView, seekBar, FREQ_SEEKBAR_OFFSET, 1);
     }
 
-    private void setupListener(final String label, final TextView textView, SeekBar seekBar, final float factor) {
+    private void setupListener(final String label, final TextView textView, SeekBar seekBar, final int offset, final float factor) {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                progress = progress + offset;
                 Log.d("PROGRESS", "p = " + progress + "\nf = " + factor + "\nr = " + (progress * factor));
                 textView.setText(label + ": " + (progress * factor));
                 displayResults();
@@ -174,11 +176,11 @@ public class FilterPlaygroundActivity extends AppCompatActivity {
         List<Entry> rdEntries = EntryHelper.inflateEntries(rdValues);
 
         if(enable) {
-            irEntries = EntryHelper.applyFilter(irEntries, frequencyLowBar.getProgress(), sampleBar.getProgress(), Filter.PassType.Lowpass, resonanceBar.getProgress() / 100f);
-            rdEntries = EntryHelper.applyFilter(rdEntries, frequencyLowBar.getProgress(), sampleBar.getProgress(), Filter.PassType.Lowpass, resonanceBar.getProgress() / 100f);
+            irEntries = EntryHelper.applyFilter(irEntries, FREQ_SEEKBAR_OFFSET + frequencyLowBar.getProgress(), sampleBar.getProgress(), Filter.PassType.Lowpass, resonanceBar.getProgress() / 100f);
+            rdEntries = EntryHelper.applyFilter(rdEntries, FREQ_SEEKBAR_OFFSET + frequencyLowBar.getProgress(), sampleBar.getProgress(), Filter.PassType.Lowpass, resonanceBar.getProgress() / 100f);
 
-            irEntries = EntryHelper.applyFilter(irEntries, frequencyHighBar.getProgress(), sampleBar.getProgress(), Filter.PassType.Highpass, resonanceBar.getProgress() / 100f);
-            rdEntries = EntryHelper.applyFilter(rdEntries, frequencyHighBar.getProgress(), sampleBar.getProgress(), Filter.PassType.Highpass, resonanceBar.getProgress() / 100f);
+            irEntries = EntryHelper.applyFilter(irEntries, FREQ_SEEKBAR_OFFSET + frequencyHighBar.getProgress(), sampleBar.getProgress(), Filter.PassType.Highpass, resonanceBar.getProgress() / 100f);
+            rdEntries = EntryHelper.applyFilter(rdEntries, FREQ_SEEKBAR_OFFSET + frequencyHighBar.getProgress(), sampleBar.getProgress(), Filter.PassType.Highpass, resonanceBar.getProgress() / 100f);
         }
 
         String result4 = String.valueOf(DataAnalyzer.getBpm(irEntries, threshold)) + " bpm // "

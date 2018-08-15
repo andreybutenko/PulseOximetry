@@ -50,8 +50,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/freq_high_text"
-        android:max="200"
-        android:progress="101" />
+        android:max="7"
+        android:progress="3" />
 
     <TextView
         android:id="@+id/freq_low_text"
@@ -67,8 +67,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/freq_low_text"
-        android:max="200"
-        android:progress="103" />
+        android:max="7"
+        android:progress="5" />
 
     <TextView
         android:id="@+id/sample_text"
