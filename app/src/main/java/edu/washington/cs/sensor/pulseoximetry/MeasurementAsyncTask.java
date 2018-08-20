@@ -16,6 +16,7 @@ import edu.washington.cs.sensor.pulseoximetry.models.MeasurementUpdate;
  */
 
 public class MeasurementAsyncTask extends AsyncTask<Void, MeasurementUpdate, String> {
+    private static final String TAG = "MEASUREMENT_TASK";
     private int PACKET_SIZE = 16;
     public static final long MEASURE_TIME = 20 * 1000; // milliseconds
 
@@ -53,7 +54,7 @@ public class MeasurementAsyncTask extends AsyncTask<Void, MeasurementUpdate, Str
 
                 receiveData = isoDep.transceive(sendData);
 
-                // The device sends 16 bytes at a time in 4 groups of 4 bytes each
+                // The device sends 16 bytes at a time in 16 samples of 4 bytes each
                 // This loop performs some bitwise operations to get two values from each group:
                 // One is the reflection of red light, the other is the reflection of infrared light
 

@@ -11,6 +11,7 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.AppCompatDrawableManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,8 @@ import edu.washington.cs.sensor.pulseoximetry.util.PreviewHelper;
 
 
 public class MeasureFragment extends Fragment {
+    private static final String TAG = "MEASURE_FRAGMENT";
+
     LineChart irChart;
     LineChart redChart;
     List<Entry> irEntries = new ArrayList<Entry>();
@@ -99,12 +102,12 @@ public class MeasureFragment extends Fragment {
                 redEntries
         );
 
-        new Handler().postDelayed(new Runnable() {
+        new Thread() {
             @Override
             public void run() {
                 new MeasurementSaveAsyncTask(MeasureFragment.this, newMeasurement).execute();
             }
-        }, 100);
+        }.start();
 
 
 //        newMeasurement.save();
@@ -169,11 +172,18 @@ public class MeasureFragment extends Fragment {
             showMeasurementErrorDialog();
         }
         else if(update.isSuccess()) {
+            DataAnalyzer.removeZeroes(irEntries);
+            DataAnalyzer.removeZeroes(redEntries);
+
+            refreshChart(irChart, irEntries, Color.BLUE);
+            refreshChart(redChart, redEntries, Color.RED);
+
             showMeasurementSuccessDialog();
         }
         else {
             addIREntry(update.getIrData());
             addRedEntry(update.getRdData());
+
             updateMeasurementProgressDialog(update);
         }
     }
@@ -194,6 +204,7 @@ public class MeasureFragment extends Fragment {
 
     public void addRedEntry(float[] redData) {
         for(int i = 0; i < redData.length; i++) {
+            Log.d(TAG, "Recording (" + redEntries.size() + ", " + redData[i] + ")");
             Entry newEntry = new Entry(redEntries.size(), redData[i]);
             redEntries.add(newEntry);
         }
@@ -271,16 +282,20 @@ public class MeasureFragment extends Fragment {
     }
 
     public void showSaveSuccessDialog() {
-        if(dialog != null) {
-            dialog.dismiss();
-        }
+        getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                if(dialog != null) {
+                    dialog.dismiss();
+                }
 
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-        dialog = new MaterialDialog.Builder(getActivity())
-                .title("Saved!")
-                .content("Access saved measurements through history tab.")
-                .positiveText("Ok")
-                .icon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_sentiment_very_satisfied_black_24dp, null))
-                .show();
+                AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+                dialog = new MaterialDialog.Builder(getActivity())
+                        .title("Saved!")
+                        .content("Access saved measurements through history tab.")
+                        .positiveText("Ok")
+                        .icon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_sentiment_very_satisfied_black_24dp, null))
+                        .show();
+            }
+        });
     }
 }

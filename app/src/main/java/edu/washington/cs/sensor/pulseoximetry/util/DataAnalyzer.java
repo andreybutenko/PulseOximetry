@@ -11,6 +11,7 @@ import java.util.List;
  */
 
 public class DataAnalyzer {
+    private static final String TAG = "DATA_ANALYZER";
 
     // Calculate bpm from set of entries by finding number of peaks
     // A peak is detected where entries turn around from increasing to decreasing
@@ -77,4 +78,37 @@ public class DataAnalyzer {
 
         return (float) (110 - 12 * Ros);
     }
+
+    private static int clamp(int val, int min, int max) {
+        return Math.max(min, Math.min(max, val));
+    }
+
+    private static float getRangeAverage(List<Entry> entries, int from, int to) {
+        int max = clamp(to,   0, entries.size());
+        int min = clamp(from, 0, entries.size());
+
+        float sum = 0;
+        for(int i = min; i < max; i++) {
+            sum += entries.get(i).getY();
+        }
+
+        return sum / (max - min);
+    }
+
+    public static void removeZeroes(List<Entry> entries) {
+        //removeZeroes(entries, entries.size());
+    }
+
+    private static void removeZeroes(List<Entry> entries, int maxRange) {
+        for(int i = 0; i < maxRange; i++) {
+            if(entries.get(i).getY() < 5000 &&
+                    getRangeAverage(entries, i - 5, i - 2) > 20000 ||
+                    getRangeAverage(entries, i + 2,  i  + 6) > 20000) {
+                Log.d(TAG, "Zero at " + i + "/" + entries.get(i).getX());
+
+                entries.get(i).setY(getRangeAverage(entries, i - 4, i + 4));
+            }
+        }
+    }
+
 }

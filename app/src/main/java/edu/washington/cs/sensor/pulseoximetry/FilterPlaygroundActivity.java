@@ -28,6 +28,7 @@ import edu.washington.cs.sensor.pulseoximetry.util.Filter;
 public class FilterPlaygroundActivity extends AppCompatActivity {
     public static final String DATE_TIME_EXTRA = "DATE_TIME_EXTRA";
     private static final int FREQ_SEEKBAR_OFFSET = 98; // min value
+    private static final int SAMPLE_SEEKBAR_OFFSET = 75; // min value
 
     LineChart irChart;
     LineChart rdChart;
@@ -105,15 +106,15 @@ public class FilterPlaygroundActivity extends AppCompatActivity {
 
         frequencyHighText = (TextView) findViewById(R.id.freq_high_text);
         frequencyHighBar = (SeekBar) findViewById(R.id.freq_high_bar);
-        setupListener("High frequency", frequencyHighText, frequencyHighBar);
+        setupListener("High frequency", frequencyHighText, frequencyHighBar, FREQ_SEEKBAR_OFFSET, 1);
 
         frequencyLowText = (TextView) findViewById(R.id.freq_low_text);
         frequencyLowBar = (SeekBar) findViewById(R.id.freq_low_bar);
-        setupListener("Low frequency", frequencyLowText, frequencyLowBar);
+        setupListener("Low frequency", frequencyLowText, frequencyLowBar, FREQ_SEEKBAR_OFFSET, 1);
 
         sampleText = (TextView) findViewById(R.id.sample_text);
         sampleBar = (SeekBar) findViewById(R.id.sample_bar);
-        setupListener("Sample Rate", sampleText, sampleBar, 0, 1);
+        setupListener("Sample Rate", sampleText, sampleBar, SAMPLE_SEEKBAR_OFFSET, 1);
 
         resonanceText = (TextView) findViewById(R.id.resonance_text);
         resonanceBar = (SeekBar) findViewById(R.id.resonance_bar);
@@ -141,10 +142,6 @@ public class FilterPlaygroundActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void setupListener(String label, TextView textView, SeekBar seekBar) {
-        setupListener(label, textView, seekBar, FREQ_SEEKBAR_OFFSET, 1);
     }
 
     private void setupListener(final String label, final TextView textView, SeekBar seekBar, final int offset, final float factor) {
@@ -176,11 +173,25 @@ public class FilterPlaygroundActivity extends AppCompatActivity {
         List<Entry> rdEntries = EntryHelper.inflateEntries(rdValues);
 
         if(enable) {
-            irEntries = EntryHelper.applyFilter(irEntries, FREQ_SEEKBAR_OFFSET + frequencyLowBar.getProgress(), sampleBar.getProgress(), Filter.PassType.Lowpass, resonanceBar.getProgress() / 100f);
-            rdEntries = EntryHelper.applyFilter(rdEntries, FREQ_SEEKBAR_OFFSET + frequencyLowBar.getProgress(), sampleBar.getProgress(), Filter.PassType.Lowpass, resonanceBar.getProgress() / 100f);
-
-            irEntries = EntryHelper.applyFilter(irEntries, FREQ_SEEKBAR_OFFSET + frequencyHighBar.getProgress(), sampleBar.getProgress(), Filter.PassType.Highpass, resonanceBar.getProgress() / 100f);
-            rdEntries = EntryHelper.applyFilter(rdEntries, FREQ_SEEKBAR_OFFSET + frequencyHighBar.getProgress(), sampleBar.getProgress(), Filter.PassType.Highpass, resonanceBar.getProgress() / 100f);
+            irEntries = EntryHelper.applyFilter(irEntries,
+                    FREQ_SEEKBAR_OFFSET + frequencyLowBar.getProgress(),
+                    SAMPLE_SEEKBAR_OFFSET + sampleBar.getProgress(),
+                    Filter.PassType.Lowpass, resonanceBar.getProgress() / 100f);
+            rdEntries = EntryHelper.applyFilter(rdEntries,
+                    FREQ_SEEKBAR_OFFSET + frequencyLowBar.getProgress(),
+                    SAMPLE_SEEKBAR_OFFSET + sampleBar.getProgress(),
+                    Filter.PassType.Lowpass, resonanceBar.getProgress() / 100f);
+                    
+            irEntries = EntryHelper.applyFilter(irEntries,
+                    FREQ_SEEKBAR_OFFSET + frequencyHighBar.getProgress(),
+                    SAMPLE_SEEKBAR_OFFSET + sampleBar.getProgress(),
+                    Filter.PassType.Highpass,
+                    resonanceBar.getProgress() / 100f);
+            rdEntries = EntryHelper.applyFilter(rdEntries,
+                    FREQ_SEEKBAR_OFFSET + frequencyHighBar.getProgress(),
+                    SAMPLE_SEEKBAR_OFFSET + sampleBar.getProgress(),
+                    Filter.PassType.Highpass,
+                    resonanceBar.getProgress() / 100f);
         }
 
         String result4 = String.valueOf(DataAnalyzer.getBpm(irEntries, threshold)) + " bpm // "
